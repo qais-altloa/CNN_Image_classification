@@ -1079,30 +1079,26 @@ Overall, the project demonstrates practical understanding of CNN architecture de
 
 ---
 
-# 🎓 Course Attribution
-
-This project was developed as part of the:
-
-**Deep Learning Specialization**
-
-**Course 4 — Convolutional Neural Networks**
-
-provided by **DeepLearning.AI**
-
-**Instructor:** Andrew Ng
-
-This repository is an educational implementation based on the course assignment and learning material and is maintained as a portfolio project demonstrating practical CNN implementation with TensorFlow/Keras.
-
-Course datasets and course-specific testing materials are not included in the public repository.
-
 ---
 
-## ⭐ Credits
+# 🎓 Course Attribution
 
-**DeepLearning.AI — Deep Learning Specialization**
+This project was developed as part of the **Deep Learning Specialization**, specifically:
 
-**Course:** Convolutional Neural Networks
+- **Course 4 — Convolutional Neural Networks**
+- **Week 1 Assignment**
+- **Provider:** DeepLearning.AI
+- **Instructor:** Andrew Ng
 
-**Instructor:** Andrew Ng
+This repository presents my implementation and analysis of the CNN concepts covered in the course, using TensorFlow/Keras.
 
-This repository is maintained as an educational portfolio project demonstrating CNN implementation and understanding.
+The project is maintained as an educational portfolio project to demonstrate practical understanding of:
+
+- Convolutional Neural Networks
+- TensorFlow/Keras
+- Sequential and Functional APIs
+- Binary and multiclass image classification
+- Model training and evaluation
+- Learning-curve analysis
+
+Course-provided datasets and course-specific testing/grading materials are not included in the public repository.
