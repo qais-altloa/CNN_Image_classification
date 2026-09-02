@@ -1,0 +1,9 @@
+.ipynb_checkpoints/
+__pycache__/
+*.pyc
+.venv/
+venv/
+env/
+.dotfiles-coursera/
+.DS_Store
+Thumbs.db
