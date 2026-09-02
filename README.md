@@ -1,11 +1,11 @@
-
 # CNN Image Classification with TensorFlow and Keras
 
-A practical Convolutional Neural Network (CNN) project implementing image classification with TensorFlow/Keras. The project demonstrates both the **Sequential API** and the **Functional API** through two image-classification tasks: binary classification on the Happy House dataset and multiclass classification on the SIGNS dataset.
+A practical Convolutional Neural Network (CNN) project implementing image classification with **TensorFlow and Keras**. The project demonstrates both the **Sequential API** and the **Functional API** through two image-classification tasks: binary classification on the **Happy House** dataset and multiclass classification on the **SIGNS** dataset.
 
-> **Course:** Deep Learning Specialization — Convolutional Neural Networks  
-> **Course:** Course 4, Week 1 Assignment  
-> **Institution:** DeepLearning.AI  
+> **Program:** Deep Learning Specialization  
+> **Course:** Course 4 — Convolutional Neural Networks  
+> **Assignment:** Week 1  
+> **Provider:** DeepLearning.AI  
 > **Instructor:** Andrew Ng  
 > **Framework:** TensorFlow / Keras
 
@@ -13,25 +13,37 @@ A practical Convolutional Neural Network (CNN) project implementing image classi
 
 ## 📌 Project Overview
 
-This project focuses on building and training Convolutional Neural Networks for image classification.
+This project demonstrates how Convolutional Neural Networks can be designed and trained for image classification.
 
-The notebook contains two separate CNN applications:
+The notebook contains two CNN applications:
 
-1. **Happy House Classification**
-   - Binary image classification
-   - Determines whether an image represents a person making a "happy" gesture.
-   - Implemented using the **Keras Sequential API**.
+### 🏠 Happy House
+A **binary classification** task implemented using the **Keras Sequential API**. The model predicts whether an input image belongs to the target Happy House category.
 
-2. **SIGNS Classification**
-   - Multiclass image classification
-   - Recognizes hand signs corresponding to six different classes.
-   - Implemented using the **Keras Functional API**.
+### ✋ SIGNS
+A **six-class classification** task implemented using the **Keras Functional API**. The model predicts which of six hand-sign classes is represented in an input image.
 
-The project covers the complete CNN workflow:
+The project covers the main CNN workflow:
 
-**Input Images → Convolution → Activation → Pooling → Flattening → Fully Connected Layer → Prediction**
+```text
+Input Image
+     ↓
+Convolution
+     ↓
+Activation
+     ↓
+Pooling
+     ↓
+Feature Extraction
+     ↓
+Flattening
+     ↓
+Dense Layer
+     ↓
+Prediction
+```
 
-It also demonstrates important deep-learning concepts such as convolution, pooling, padding, batch normalization, activation functions, softmax classification, model compilation, training, evaluation, and learning-curve analysis.
+It also demonstrates convolution, padding, pooling, batch normalization, ReLU activation, sigmoid and softmax outputs, model compilation, training, evaluation, and learning-curve analysis.
 
 ---
 
@@ -39,77 +51,41 @@ It also demonstrates important deep-learning concepts such as convolution, pooli
 
 The main objectives of this project are to:
 
-- Understand how CNNs process image data.
-- Build CNN architectures using TensorFlow/Keras.
-- Use the **Sequential API** for a straightforward layer-by-layer architecture.
-- Use the **Functional API** for more flexible neural-network construction.
-- Apply convolutional layers to extract spatial features from images.
-- Use pooling layers to reduce spatial dimensions.
+- Build image-classification models using TensorFlow/Keras.
+- Understand the main components of a CNN.
+- Implement a model using the Keras Sequential API.
+- Implement a model using the Keras Functional API.
+- Apply convolutional layers for spatial feature extraction.
+- Use padding, strides, and pooling to control feature-map dimensions.
 - Use ReLU activations to introduce non-linearity.
-- Use batch normalization to normalize intermediate activations.
-- Build binary and multiclass classification models.
-- Train CNN models using Adam optimization.
-- Analyze training and held-out performance using loss and accuracy curves.
-- Understand the difference between binary and multiclass classification outputs.
+- Use batch normalization in a CNN architecture.
+- Implement binary and multiclass classification.
+- Choose appropriate output activations and loss functions.
+- Train models using the Adam optimizer.
+- Analyze training and held-out performance using accuracy and loss curves.
+- Identify differences between training performance and generalization performance.
 
 ---
 
-# 🧠 Concepts Demonstrated
+# 🧠 CNN Concepts Demonstrated
 
-## Convolutional Neural Networks
+## Convolution
 
-A CNN is designed to process structured grid-like data such as images.
+A convolutional layer applies learnable filters to an image to extract spatial features.
 
-Instead of connecting every pixel directly to every neuron, convolutional layers use small learnable filters to detect local patterns such as:
-
-- edges
-- textures
-- shapes
-- increasingly complex visual features
-
-A typical CNN pipeline used in this project is:
+For an RGB input image:
 
 ```text
-Input Image
-     ↓
-Convolution
-     ↓
-ReLU
-     ↓
-Pooling
-     ↓
-Convolution
-     ↓
-ReLU
-     ↓
-Pooling
-     ↓
-Flatten
-     ↓
-Dense Layer
-     ↓
-Prediction
+64 × 64 × 3
 ```
 
----
-
-## 🔲 Convolution
-
-A convolutional layer applies learnable filters to an image.
-
-For example:
+a convolutional layer can produce multiple feature maps:
 
 ```text
-Input
-64 × 64 × 3
-
-      ↓ Convolution
-
-Feature Maps
 64 × 64 × number_of_filters
 ```
 
-The three channels in the input represent:
+The three input channels represent:
 
 ```text
 Red
@@ -117,47 +93,75 @@ Green
 Blue
 ```
 
-The convolution filters learn useful visual patterns automatically during training.
+During training, the convolutional filters learn useful patterns such as edges, textures, and shapes.
 
 ---
 
-## 📉 Pooling
+## Padding
+
+Padding adds pixels around the input before convolution.
+
+For example, the Happy House model uses:
+
+```python
+ZeroPadding2D((3, 3))
+```
+
+This adds a border of three pixels around the height and width dimensions.
+
+Padding can help preserve spatial information before applying convolution.
+
+---
+
+## Stride
+
+Stride determines how far the convolution or pooling operation moves across the input.
+
+For example:
+
+```text
+stride = 1
+```
+
+moves one pixel at a time, while larger strides reduce the spatial dimensions more aggressively.
+
+---
+
+## Pooling
 
 Pooling reduces the spatial dimensions of feature maps.
 
-For example, a `2 × 2` max-pooling operation reduces:
+For example, a `2 × 2` max-pooling operation with stride 2 changes approximately:
 
 ```text
 64 × 64
 ```
 
-to approximately:
+to:
 
 ```text
 32 × 32
 ```
 
-when using a stride of 2.
+Pooling reduces the computational cost and compresses spatial information while retaining strong local responses.
 
-Pooling helps reduce computational cost and makes the learned representation less sensitive to small spatial changes.
-
-This project uses different pooling configurations for the two models.
+This project uses different pooling configurations in the two models.
 
 ---
 
-## ⚡ ReLU
+## ReLU
 
-The Rectified Linear Unit is used as the activation function after convolution:
+The Rectified Linear Unit is used after convolutional layers:
 
 ```text
 ReLU(x) = max(0, x)
 ```
 
-It introduces non-linearity into the network, allowing the CNN to learn more complex patterns.
+ReLU introduces non-linearity, allowing the network to learn more complex relationships.
 
 ---
 
-## 🧮 Batch Normalization
+## Batch Normalization
 
 The Happy House model uses:
 
@@ -165,15 +169,15 @@ The Happy House model uses:
 BatchNormalization(axis=3)
 ```
 
-Because the images use the channels-last format:
+The images use the channels-last format:
 
 ```text
 (batch, height, width, channels)
 ```
 
-`axis=3` corresponds to the channel dimension.
+Therefore, `axis=3` corresponds to the channel dimension.
 
-Batch normalization helps stabilize the activations during training.
+Batch normalization normalizes activations during training and can help stabilize the optimization process.
 
 ---
 
@@ -181,49 +185,53 @@ Batch normalization helps stabilize the activations during training.
 
 ## Task
 
-The first model performs **binary classification**.
+The first model performs **binary image classification**.
 
-The objective is to classify images into two categories:
+The output is a single probability representing the model's prediction for the binary target class.
 
 ```text
-Happy House
+Input Image
+     ↓
+CNN
+     ↓
+Sigmoid
      ↓
 Binary Prediction
-     ↓
-0 or 1
 ```
 
-The output layer therefore contains a single neuron with a sigmoid activation.
+The final layer is:
+
+```python
+Dense(1, activation="sigmoid")
+```
 
 ---
 
 ## Dataset
 
-The Happy House dataset contains:
+The Happy House dataset used in the notebook contains:
 
 | Property | Value |
 |---|---:|
 | Training examples | 600 |
 | Test examples | 150 |
-| Image size | 64 × 64 |
+| Image dimensions | 64 × 64 |
 | Channels | 3 |
 | Input shape | `(64, 64, 3)` |
 | Number of classes | 2 |
 
-The corresponding label shapes are:
+Label shapes:
 
 ```text
 Y_train → (600, 1)
 Y_test  → (150, 1)
 ```
 
-Because this is a binary-classification task, a single sigmoid output is used.
-
 ---
 
 ## Architecture
 
-The model is constructed using the **Keras Sequential API**.
+The Happy House model is implemented using the **Keras Sequential API**.
 
 ```text
 Input
@@ -262,9 +270,7 @@ sigmoid
 Binary Prediction
 ```
 
----
-
-## Keras Implementation
+The model is defined as:
 
 ```python
 model = tf.keras.Sequential([
@@ -282,59 +288,57 @@ model = tf.keras.Sequential([
 
 ## Model Configuration
 
-The model is compiled using:
-
-```python
-optimizer = Adam
-loss = binary_crossentropy
-metric = accuracy
-```
-
-Conceptually:
+The model uses:
 
 ```text
-Binary classification
-        ↓
-Sigmoid output
+Optimizer: Adam
+Loss: Binary Cross-Entropy
+Metric: Accuracy
+```
+
+The output and loss are matched to the binary classification task:
+
+```text
+Dense(1, sigmoid)
         ↓
 Binary Cross-Entropy
-        ↓
-Adam optimizer
-        ↓
-Accuracy metric
 ```
 
 ---
 
 ## Training Configuration
 
-The notebook trains the model using:
+The recorded notebook training configuration is:
 
 ```text
 Epochs:      10
-Batch size:  16
+Batch size: 16
 ```
 
-The model is trained on 600 training images and evaluated on 150 test images.
+The model is trained using the 600 training images and evaluated on the 150-image test set.
 
 ---
 
-## Happy House Result
+## Parameter Count
+
+The Happy House architecture contains:
+
+```text
+37,633 trainable parameters
+```
+
+---
+
+## Results
 
 The recorded evaluation result is:
 
 | Metric | Result |
 |---|---:|
-| Test Loss | 1.318354... |
+| Test Loss | ~1.3184 |
 | Test Accuracy | **66.0%** |
 
-The recorded accuracy is therefore:
-
-```text
-66.0%
-```
-
-This result reflects the specific training run stored in the notebook.
+This result corresponds to the specific training run stored in the notebook.
 
 ---
 
@@ -342,46 +346,57 @@ This result reflects the specific training run stored in the notebook.
 
 ## Task
 
-The second model performs **multiclass classification**.
+The second model performs **multiclass image classification**.
 
-The SIGNS dataset contains images representing six different hand-sign classes.
-
-The model therefore produces six output probabilities:
+The model predicts one of six hand-sign classes.
 
 ```text
-Class 1
-Class 2
-Class 3
-Class 4
-Class 5
-Class 6
+Input Image
+     ↓
+CNN
+     ↓
+Softmax
+     ↓
+6 Class Probabilities
+     ↓
+Predicted Class
 ```
 
-The predicted class is the class with the highest probability.
+The final layer is:
+
+```python
+Dense(6, activation="softmax")
+```
 
 ---
 
 ## Dataset
 
-The SIGNS dataset contains:
+The SIGNS dataset used in the notebook contains:
 
 | Property | Value |
 |---|---:|
 | Training examples | 1080 |
 | Test examples | 120 |
-| Image size | 64 × 64 |
+| Image dimensions | 64 × 64 |
 | Channels | 3 |
 | Input shape | `(64, 64, 3)` |
 | Number of classes | 6 |
 
-The one-hot label shapes are:
+The labels are one-hot encoded:
 
 ```text
 Y_train → (1080, 6)
 Y_test  → (120, 6)
 ```
 
-Because this is a six-class classification problem, the output layer contains six neurons.
+A one-hot encoded label can be represented as:
+
+```text
+[0, 0, 1, 0, 0, 0]
+```
+
+where the position containing `1` identifies the target class.
 
 ---
 
@@ -437,11 +452,7 @@ softmax
 6-Class Prediction
 ```
 
----
-
-## Keras Implementation
-
-The Functional API allows the input and output tensors to be connected explicitly:
+The model is constructed as:
 
 ```python
 def convolutional_model(input_shape):
@@ -496,27 +507,31 @@ def convolutional_model(input_shape):
 
 # 📐 SIGNS Dimension Flow
 
-The model changes the feature-map dimensions as follows:
+The feature-map dimensions through the model are:
 
 ```text
 Input
 64 × 64 × 3
 
-      ↓ Conv2D, SAME
+      ↓ Conv2D
+      8 filters
+      padding = same
 
 64 × 64 × 8
 
-      ↓ MaxPooling
+      ↓ MaxPooling2D
       pool = 8 × 8
       stride = 8
 
 8 × 8 × 8
 
-      ↓ Conv2D, SAME
+      ↓ Conv2D
+      16 filters
+      padding = same
 
 8 × 8 × 16
 
-      ↓ MaxPooling
+      ↓ MaxPooling2D
       pool = 4 × 4
       stride = 4
 
@@ -531,13 +546,13 @@ Input
 6
 ```
 
-The flattening calculation is:
+The flattening operation is:
 
 ```text
 2 × 2 × 16 = 64
 ```
 
-Therefore, the Dense layer receives 64 inputs.
+Therefore, the Dense layer receives 64 input features.
 
 ---
 
@@ -557,19 +572,17 @@ The recorded model summary contains:
 | Flatten | `(None, 64)` | 0 |
 | Dense | `(None, 6)` | 390 |
 
-### Total trainable parameters
+### Total parameters
 
 ```text
-1,310
+1,310 trainable parameters
 ```
-
-This relatively small model demonstrates that useful image representations can be learned with a compact CNN architecture.
 
 ---
 
 # ⚙️ SIGNS Model Configuration
 
-The model is compiled using:
+The model is compiled with:
 
 ```python
 optimizer = Adam()
@@ -577,73 +590,59 @@ loss = "categorical_crossentropy"
 metrics = ["accuracy"]
 ```
 
-The reason categorical cross-entropy is used is that the labels are represented as one-hot vectors with six positions.
-
-For example:
+The classification setup is:
 
 ```text
-[0, 0, 1, 0, 0, 0]
+Dense(6, softmax)
+        ↓
+Categorical Cross-Entropy
 ```
 
-represents one of the six classes.
-
-The final layer uses:
-
-```python
-Dense(6, activation="softmax")
-```
-
-Softmax converts the six outputs into probabilities whose sum is approximately 1.
+Softmax converts the six outputs into a probability distribution across the six classes.
 
 ---
 
 # 🏋️ SIGNS Training
 
-The training dataset is batched using:
-
-```python
-batch_size = 64
-```
-
-The notebook trains the model for:
+The recorded training configuration is:
 
 ```text
-100 epochs
+Epochs:      100
+Batch size: 64
+Optimizer:   Adam
+Loss:        Categorical Cross-Entropy
+Metric:      Accuracy
 ```
-
-Training and the held-out split are passed through the TensorFlow dataset pipeline.
 
 ---
 
-# 📈 Training Results
+# 📈 SIGNS Training Results
 
-The notebook contains a stored training history for the SIGNS model.
+The notebook contains a stored 100-epoch training history.
 
-The recorded history shows:
-
-### Training accuracy
+### Training Accuracy
 
 ```text
 Initial accuracy ≈ 15.6%
 Final accuracy  ≈ 84.0%
-Best accuracy   ≈ 84.2%
+Best accuracy   ≈ 84.17%
 ```
 
-### Held-out/test-split accuracy used during training
+### Held-Out/Test-Split Accuracy
 
 ```text
 Final accuracy = 75.0%
 Best accuracy  = 75.0%
 ```
 
-### Final losses
+### Final Loss
 
 ```text
-Training loss             ≈ 0.511
-Held-out/test-split loss  ≈ 0.692
+Training loss            ≈ 0.511
+Held-out/test-split loss ≈ 0.692
 ```
 
-The training curves are included in the repository:
+The stored training curves are included in the repository:
 
 ![SIGNS Accuracy](images/signs_accuracy.png)
 
@@ -653,14 +652,18 @@ The training curves are included in the repository:
 
 # 📌 Results Summary
 
-| Model | Task | Dataset | Training Setup | Reported Accuracy |
-|---|---|---|---|---:|
-| Happy House CNN | Binary classification | Happy House | 10 epochs, batch size 16 | **66.0% test accuracy** |
-| SIGNS CNN | Multiclass classification | SIGNS | 100 epochs, batch size 64 | **75.0% held-out/test-split accuracy** |
+| Model | Task | Training Setup | Reported Result |
+|---|---|---|---:|
+| Happy House CNN | Binary classification | 10 epochs, batch size 16 | **66.0% test accuracy** |
+| SIGNS CNN | Multiclass classification | 100 epochs, batch size 64 | **75.0% held-out/test-split accuracy** |
 
-For the SIGNS model, the notebook uses the provided test split as `validation_data` during training. Therefore, the 75.0% figure should **not** be presented as a completely untouched final test evaluation in a production-style experiment.
+### Important evaluation note
 
-A production workflow would normally use:
+For the SIGNS experiment, the notebook passes the provided test split to Keras as `validation_data` during training.
+
+Therefore, the reported **75.0%** should be described as **held-out/test-split accuracy**, not as a completely untouched final test-set evaluation.
+
+In a production machine-learning workflow, a separate validation set would normally be used for model selection, while the test set would remain untouched until final evaluation.
 
 ```text
 Training Set
@@ -669,44 +672,33 @@ Model Training
 
 Validation Set
      ↓
-Hyperparameter / Model Selection
+Model Selection / Tuning
 
 Test Set
      ↓
-Final Unbiased Evaluation
+Final Evaluation
 ```
-
-In this course assignment, the available held-out split is used during training for monitoring.
 
 ---
 
 # 🔎 Interpretation of the Results
 
-The SIGNS model reaches approximately 84% training accuracy while the held-out/test-split accuracy reaches 75%.
-
-This gap indicates that the model fits the training data better than the held-out data.
-
-This can be an indication of some degree of **overfitting**.
-
-In other words:
+The SIGNS model reaches approximately:
 
 ```text
-Training performance
-        ≈ 84%
-
-Held-out performance
-        ≈ 75%
+Training accuracy ≈ 84%
+Held-out accuracy ≈ 75%
 ```
 
-The model successfully learns meaningful patterns, but its performance on unseen examples is lower than its performance on the training data.
+The difference between training and held-out performance indicates that the model fits the training data better than the held-out data.
 
-The learning curves help visualize this behavior.
+This suggests some degree of **overfitting** and indicates that generalization could be improved.
+
+The loss and accuracy curves provide a visual way to inspect this behavior throughout training.
 
 ---
 
-# 🏗️ Why Two Keras APIs?
-
-This project intentionally demonstrates two different ways of constructing neural networks.
+# 🏗️ Sequential API vs Functional API
 
 ## Sequential API
 
@@ -716,7 +708,7 @@ The Happy House model uses:
 tf.keras.Sequential(...)
 ```
 
-The Sequential API is useful when the model is essentially a simple linear stack of layers:
+The Sequential API represents a straightforward stack of layers:
 
 ```text
 Layer 1
@@ -728,7 +720,7 @@ Layer 3
 Layer 4
 ```
 
-It is simple and easy to read.
+It is simple and well suited to architectures where each layer has a single sequential connection.
 
 ---
 
@@ -741,106 +733,95 @@ Input(...)
 Model(inputs=..., outputs=...)
 ```
 
-The Functional API explicitly represents the flow between tensors.
+The Functional API provides explicit control over how tensors flow through the network.
 
-It is more flexible and is useful for models involving:
+It is particularly useful for more complex architectures involving:
 
 - multiple inputs
 - multiple outputs
 - branches
 - skip connections
 - shared layers
-- more complex architectures
+- non-linear computation graphs
 
-Using both APIs in this project demonstrates familiarity with the two major Keras model-building approaches.
+Using both APIs demonstrates practical experience with two major Keras model-building approaches.
 
 ---
 
-# 🧪 Preprocessing
+# 🧪 Data Representation
 
-The project prepares the image datasets before feeding them into the CNNs.
-
-The images are stored as RGB images with dimensions:
-
-```text
-64 × 64 × 3
-```
-
-The dataset arrays are organized so that the CNN receives image tensors in channels-last format:
+The CNNs receive RGB images in channels-last format:
 
 ```text
 (batch, height, width, channels)
 ```
 
-The target labels are represented differently depending on the problem:
-
-### Binary classification
+For these datasets:
 
 ```text
-(600, 1)
-(150, 1)
+(height, width, channels)
+=
+(64, 64, 3)
 ```
 
-### Multiclass classification
+The target representation differs by task:
+
+### Happy House
 
 ```text
-(1080, 6)
-(120, 6)
+Y_train → (600, 1)
+Y_test  → (150, 1)
 ```
 
-The SIGNS labels are one-hot encoded because the model uses categorical cross-entropy.
+### SIGNS
+
+```text
+Y_train → (1080, 6)
+Y_test  → (120, 6)
+```
+
+The SIGNS labels use one-hot encoding because the model performs six-class classification with categorical cross-entropy.
 
 ---
 
-# 🧮 Loss Functions
+# 🧮 Binary vs Multiclass Classification
 
-The two models use different loss functions because they solve different classification problems.
+The two models demonstrate how the output layer and loss function change depending on the task.
 
-## Happy House
+## Binary Classification
 
-Binary classification:
-
-```python
-loss="binary_crossentropy"
+```text
+Dense(1, sigmoid)
+        ↓
+Binary Cross-Entropy
 ```
 
-Output:
+Used for:
 
-```python
-Dense(1, activation="sigmoid")
-```
+**Happy House**
 
 ---
 
-## SIGNS
-
-Multiclass classification:
-
-```python
-loss="categorical_crossentropy"
-```
-
-Output:
-
-```python
-Dense(6, activation="softmax")
-```
-
-The relationship is:
+## Multiclass Classification
 
 ```text
-Binary classification
+Dense(6, softmax)
         ↓
-1 sigmoid output
-        ↓
-Binary cross-entropy
+Categorical Cross-Entropy
+```
 
+Used for:
 
-Multiclass classification
-        ↓
-6 softmax outputs
-        ↓
-Categorical cross-entropy
+**SIGNS**
+
+This demonstrates an important principle in supervised learning:
+
+```text
+Problem type
+     ↓
+Output representation
+     ↓
+Appropriate loss function
 ```
 
 ---
@@ -853,7 +834,7 @@ Categorical cross-entropy
 - NumPy
 - Pandas
 - Matplotlib
-- HDF5 datasets
+- HDF5
 - Jupyter Notebook
 - Convolutional Neural Networks
 - Deep Learning
@@ -862,7 +843,7 @@ Categorical cross-entropy
 
 # 📁 Project Structure
 
-A clean portfolio version of the repository can use the following structure:
+The intended portfolio repository structure is:
 
 ```text
 CNN_Image_Classification/
@@ -870,23 +851,42 @@ CNN_Image_Classification/
 ├── CNN_Image_Classification.ipynb
 ├── README.md
 ├── cnn_utils.py
+├── .gitignore
 │
-├── images/
-│   ├── signs_accuracy.png
-│   └── signs_loss.png
-│
-└── .gitignore
+└── images/
+    ├── signs_accuracy.png
+    └── signs_loss.png
 ```
 
 ### File descriptions
 
-| File | Purpose |
+| File / Folder | Purpose |
 |---|---|
-| `CNN_Image_Classification.ipynb` | Complete implementation, training, evaluation, and analysis |
-| `cnn_utils.py` | Utility functions used by the notebook |
+| `CNN_Image_Classification.ipynb` | Complete CNN implementation, training, evaluation, and analysis |
+| `cnn_utils.py` | Supporting utility functions used by the notebook |
 | `README.md` | Project documentation |
-| `images/` | Training and evaluation visualizations |
-| `.gitignore` | Prevents unnecessary files from being committed |
+| `.gitignore` | Prevents temporary and unnecessary files from being committed |
+| `images/` | Stores training-result visualizations |
+
+---
+
+# 📦 Dataset
+
+The course datasets are **not included in this public repository**.
+
+To run the notebook locally, place the required HDF5 files in:
+
+```text
+datasets/
+├── train_signs.h5
+├── test_signs.h5
+├── train_happy.h5
+└── test_happy.h5
+```
+
+These files are required by the notebook for training and evaluation.
+
+The datasets and course-specific files are intentionally kept outside the public portfolio repository.
 
 ---
 
@@ -899,49 +899,108 @@ git clone <YOUR_GITHUB_REPOSITORY_URL>
 cd CNN_Image_Classification
 ```
 
-## 2. Install dependencies
+## 2. Install the required packages
 
 ```bash
 pip install tensorflow numpy pandas matplotlib h5py jupyter
 ```
 
-## 3. Launch Jupyter Notebook
+## 3. Add the datasets
+
+Place the required HDF5 files inside:
+
+```text
+datasets/
+```
+
+as described in the dataset section above.
+
+## 4. Launch Jupyter Notebook
 
 ```bash
 jupyter notebook
 ```
 
-## 4. Open
+## 5. Open the notebook
 
 ```text
 CNN_Image_Classification.ipynb
 ```
 
-## 5. Run the notebook from beginning to end
+## 6. Run the notebook
 
-The notebook will:
+The notebook performs the following workflow:
 
 ```text
-Load the datasets
-      ↓
-Preprocess the data
-      ↓
-Build the CNNs
-      ↓
-Compile the models
-      ↓
-Train the models
-      ↓
-Evaluate performance
-      ↓
-Plot learning curves
+Load Data
+    ↓
+Prepare Labels / Inputs
+    ↓
+Build CNN
+    ↓
+Compile Model
+    ↓
+Train
+    ↓
+Evaluate
+    ↓
+Analyze Accuracy and Loss
 ```
+
+---
+
+# ⚠️ Reproducibility Note
+
+The notebook is based on an educational course assignment and contains some saved execution-state inconsistencies.
+
+One saved SIGNS execution contains the following shape-mismatch error:
+
+```text
+ValueError:
+Shapes (None, 1) and (None, 6) are incompatible
+```
+
+However, the notebook also contains the correct one-hot encoded SIGNS label shapes:
+
+```text
+Y_train → (1080, 6)
+Y_test  → (120, 6)
+```
+
+and contains a stored 100-epoch training history from a successful model run.
+
+Therefore, the SIGNS results and learning curves reported in this README correspond to the **stored successful training history** in the notebook.
+
+For maximum reproducibility, the notebook should ideally be restarted from a clean kernel and executed from beginning to end before using it as a final experimental benchmark.
+
+---
+
+# 🚀 Potential Improvements
+
+The current CNN architectures are compact educational models. Several improvements could be explored in future experiments:
+
+- Data augmentation
+- Additional convolutional layers
+- Different filter sizes and numbers of filters
+- Dropout regularization
+- Improved pooling strategies
+- Learning-rate tuning
+- Early stopping
+- A separate validation set
+- Confusion matrix analysis
+- Precision, recall, and F1-score
+- Example prediction visualizations
+- Transfer learning using architectures such as MobileNet or ResNet
+- Reproducible random seeds
+- Model checkpointing
+- Saved model weights
+- A dedicated `requirements.txt`
 
 ---
 
 # 📚 Key Learning Outcomes
 
-Through this project, I practiced:
+This project provided practical experience with:
 
 ### CNN Fundamentals
 
@@ -965,17 +1024,17 @@ Through this project, I practiced:
 - `Dense`
 - `Input`
 - `Model`
+- `Sequential`
 
-### Model Building
+### Model Training
 
-- Sequential API
-- Functional API
-- Model compilation
 - Adam optimization
 - Binary cross-entropy
 - Categorical cross-entropy
 - Sigmoid activation
 - Softmax activation
+- Batch training
+- Epoch-based training
 
 ### Model Evaluation
 
@@ -983,57 +1042,40 @@ Through this project, I practiced:
 - Loss
 - Training curves
 - Held-out performance
+- Generalization
 - Overfitting analysis
 
 ---
 
-# 📈 What the Learning Curves Show
+# 📌 Project Takeaway
 
-The SIGNS training curves provide two important pieces of information.
+This project demonstrates the end-to-end process of constructing CNN image classifiers with TensorFlow and Keras.
 
-## Accuracy curve
-
-The training accuracy improves significantly during the 100 training epochs, reaching approximately 84%.
-
-The held-out/test-split accuracy improves to approximately 75%.
-
-This shows that the model learns useful patterns from the training data but does not generalize perfectly to unseen examples.
-
----
-
-## Loss curve
-
-Training loss decreases considerably during training.
-
-The held-out/test-split loss also decreases, although it remains higher than the training loss toward the end.
-
-This difference is consistent with the observed gap between training and held-out performance.
-
----
-
-# ⚠️ Reproducibility Note
-
-The notebook is an educational/course notebook and contains some saved execution-state inconsistencies.
-
-In particular, the notebook includes a recorded shape-mismatch error during one SIGNS training execution:
+The two models illustrate both simple and flexible approaches to building neural networks:
 
 ```text
-ValueError:
-Shapes (None, 1) and (None, 6) are incompatible
+Happy House
+     ↓
+Sequential API
+     ↓
+Binary Classification
+     ↓
+66.0% recorded test accuracy
 ```
-
-However, the notebook also contains the correct one-hot encoded SIGNS label shapes:
 
 ```text
-Y_train → (1080, 6)
-Y_test  → (120, 6)
+SIGNS
+     ↓
+Functional API
+     ↓
+Six-Class Classification
+     ↓
+75.0% recorded held-out/test-split accuracy
 ```
 
-and contains a stored 100-epoch training history from a successful model run.
+The SIGNS model reached approximately **84% training accuracy** compared with **75% held-out/test-split accuracy**, highlighting the difference between fitting the training data and generalizing to unseen examples.
 
-Therefore, the reported SIGNS learning curves in this README are explicitly described as coming from the **stored training history** rather than claiming that every saved notebook cell executes cleanly in its current state.
-
-For a polished portfolio repository, the notebook should ideally be restarted and executed from the beginning in a clean kernel before publishing the final version.
+Overall, the project demonstrates practical understanding of CNN architecture design, TensorFlow/Keras implementation, binary and multiclass classification, model training, and performance analysis.
 
 ---
 
@@ -1045,95 +1087,13 @@ This project was developed as part of the:
 
 **Course 4 — Convolutional Neural Networks**
 
-by **DeepLearning.AI**
+provided by **DeepLearning.AI**
 
-Instructor:
+**Instructor:** Andrew Ng
 
-**Andrew Ng**
+This repository is an educational implementation based on the course assignment and learning material and is maintained as a portfolio project demonstrating practical CNN implementation with TensorFlow/Keras.
 
-The project is an educational implementation based on the course assignment and learning material.
-
-This repository is intended to demonstrate my understanding and implementation of CNN concepts using TensorFlow/Keras.
-
-All original course materials, datasets, utilities, and instructional assets should be shared publicly only in accordance with the applicable course/platform terms.
-
----
-
-# 🚀 Possible Future Improvements
-
-Several improvements could make the models stronger and the experiment more production-oriented:
-
-- Add data augmentation.
-- Add additional convolutional blocks.
-- Tune the number and size of filters.
-- Experiment with dropout.
-- Use a separate validation set.
-- Keep the test set untouched until final evaluation.
-- Add a confusion matrix for the SIGNS classifier.
-- Report precision, recall, and F1-score.
-- Add example predictions.
-- Compare the custom CNN with a transfer-learning model such as MobileNet or ResNet.
-- Add reproducible random seeds.
-- Save trained model weights.
-- Add a requirements file for dependency management.
-
----
-
-# 📌 Project Takeaway
-
-This project demonstrates the fundamental workflow for building CNN image classifiers with TensorFlow and Keras.
-
-The two implementations show how the same core CNN concepts can be expressed using different Keras APIs:
-
-```text
-Sequential API
-     ↓
-Simple layer-by-layer models
-
-
-Functional API
-     ↓
-More flexible computational graphs
-```
-
-The project also demonstrates the complete deep-learning workflow:
-
-```text
-Dataset
-   ↓
-Preprocessing
-   ↓
-CNN Architecture
-   ↓
-Compilation
-   ↓
-Training
-   ↓
-Evaluation
-   ↓
-Learning Curves
-   ↓
-Performance Analysis
-```
-
-The final models achieved:
-
-```text
-Happy House
-66.0% test accuracy
-
-
-SIGNS
-75.0% held-out/test-split accuracy
-```
-
-with the SIGNS model reaching approximately:
-
-```text
-84.0% training accuracy
-```
-
-This project provided practical experience with convolutional neural networks, TensorFlow/Keras model construction, binary and multiclass classification, and interpreting model performance.
+Course datasets and course-specific testing materials are not included in the public repository.
 
 ---
 
@@ -1141,11 +1101,8 @@ This project provided practical experience with convolutional neural networks, T
 
 **DeepLearning.AI — Deep Learning Specialization**
 
-**Instructor:** Andrew Ng
-
 **Course:** Convolutional Neural Networks
 
+**Instructor:** Andrew Ng
+
 This repository is maintained as an educational portfolio project demonstrating CNN implementation and understanding.
-=======
-# CNN_Image_classification
->>>>>>> f7633ae229c5d3bb1679f65ab8d8d2760035d324
